@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Built. Now What? — ChronoAI Builder Nights</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #080808;
+      --surface: #111111;
+      --surface2: #181818;
+      --border: rgba(255,255,255,0.07);
+      --amber: #F59E0B;
+      --amber-dim: rgba(245,158,11,0.10);
+      --text: #FFFFFF;
+      --muted: #9CA3AF;
+      --subtle: #374151;
+    }
+
+    html, body {
+      height: 100%; width: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', -apple-system, sans-serif;
+      overflow: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.016) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.016) 1px, transparent 1px);
+      background-size: 56px 56px;
+      pointer-events: none; z-index: 0;
+    }
+
+    .progress-bar {
+      position: fixed; top: 0; left: 0; height: 2px;
+      background: var(--amber);
+      transition: width 0.4s ease; z-index: 200;
+    }
+
+    .deck { width: 100vw; height: 100vh; position: relative; z-index: 1; }
+
+    .slide {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 56px 80px 80px;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      transform: translateX(28px);
+    }
+    .slide.active { opacity: 1; pointer-events: all; transform: translateX(0); }
+    .slide.exit   { opacity: 0; transform: translateX(-28px); }
+
+    .slide.active .anim { animation: fadeUp 0.5s ease forwards; opacity: 0; }
+    .slide.active .anim:nth-child(1) { animation-delay: 0.06s; }
+    .slide.active .anim:nth-child(2) { animation-delay: 0.13s; }
+    .slide.active .anim:nth-child(3) { animation-delay: 0.20s; }
+    .slide.active .anim:nth-child(4) { animation-delay: 0.27s; }
+    .slide.active .anim:nth-child(5) { animation-delay: 0.34s; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .slide::after {
+      content: '';
+      position: absolute; top: -160px; right: -160px;
+      width: 480px; height: 480px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(245,158,11,0.05) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .slide-label {
+      position: absolute; top: 32px; left: 80px;
+      font-size: 11px; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--subtle);
+    }
+
+    /* NAV */
+    .nav {
+      position: fixed; bottom: 32px; left: 0; right: 0;
+      display: flex; align-items: center; justify-content: center;
+      gap: 24px; z-index: 100;
+    }
+    .nav-btn {
+      width: 38px; height: 38px; border-radius: 50%;
+      border: 1px solid var(--border); background: var(--surface2);
+      color: var(--muted); cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s ease; font-size: 13px;
+    }
+    .nav-btn:hover { border-color: var(--amber); color: var(--amber); }
+    .nav-btn:disabled { opacity: 0.25; cursor: default; }
+    .dots { display: flex; gap: 6px; align-items: center; }
+    .dot {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--subtle); transition: all 0.25s ease; cursor: pointer;
+    }
+    .dot.active { width: 20px; border-radius: 3px; background: var(--amber); }
+
+    /* TYPE */
+    .eyebrow {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--amber); margin-bottom: 12px;
+    }
+    h1 { font-size: clamp(52px, 7vw, 84px); font-weight: 900; line-height: 1.0; letter-spacing: -0.03em; }
+    h2 { font-size: clamp(22px, 3vw, 34px); font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; }
+    .amber { color: var(--amber); }
+    .muted { color: var(--muted); }
+
+    /* COMPONENTS */
+    .tag {
+      display: inline-flex; align-items: center;
+      padding: 3px 11px; border-radius: 100px;
+      font-size: 11px; font-weight: 700; letter-spacing: 0.04em;
+      background: var(--amber-dim); color: var(--amber);
+      border: 1px solid rgba(245,158,11,0.25);
+    }
+
+    /* SLIDE 1 — META GRID */
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 32px;
+    }
+    .meta-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 20px;
+    }
+    .meta-label {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--subtle); margin-bottom: 5px;
+    }
+    .meta-value {
+      font-size: 15px; font-weight: 600; color: var(--text); line-height: 1.35;
+    }
+    .meta-value.highlight { color: var(--amber); }
+
+    /* SLIDE 2 — PARTNER GRID */
+    .partner-section { margin-bottom: 16px; }
+    .section-label {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--subtle);
+      margin-bottom: 8px; padding-left: 2px;
+    }
+    .partner-row { display: flex; gap: 10px; flex-wrap: wrap; }
+    .partner-card {
+      flex: 1; min-width: 160px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 18px;
+      border-top: 2px solid var(--border);
+      transition: border-color 0.2s ease;
+    }
+    .partner-card:hover { border-top-color: var(--amber); }
+    .partner-name {
+      font-size: 13px; font-weight: 700; color: var(--text);
+      margin-bottom: 8px;
+    }
+    .partner-points { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+    .partner-points li {
+      display: flex; align-items: flex-start; gap: 7px;
+      font-size: 11px; color: var(--muted); line-height: 1.5;
+    }
+    .partner-points li::before { content: '→'; color: var(--amber); font-weight: 700; flex-shrink: 0; }
+
+    @media (max-width: 768px) {
+      .slide { padding: 48px 24px 80px; }
+      .slide-label { left: 24px; }
+      .meta-grid { grid-template-columns: 1fr 1fr; }
+      .partner-row { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="progress-bar" id="progress"></div>
+
+  <div class="deck">
+
+    <!-- ══════════════ SLIDE 1 ══════════════ -->
+    <div class="slide active" id="slide-0">
+      <span class="slide-label">01 / 02 · Event Overview</span>
+
+      <div class="anim" style="margin-bottom: 10px;">
+        <span class="tag">ChronoAI Builder Nights · Edition 1</span>
+      </div>
+
+      <div class="anim" style="margin-bottom: 16px;">
+        <h1>Built.<br/><span class="amber">Now What?</span></h1>
+      </div>
+
+      <div class="anim" style="margin-bottom: 28px;">
+        <p style="font-size: clamp(16px, 1.8vw, 20px); color: var(--muted); line-height: 1.6; max-width: 560px;">
+          Anyone can build with AI. But can you launch it?<br/>
+          <span style="color: var(--text); font-weight: 500;">Singapore's most honest conversation about the gap between building and shipping.</span>
+        </p>
+      </div>
+
+      <div class="anim meta-grid">
+        <div class="meta-card">
+          <div class="meta-label">Date</div>
+          <div class="meta-value">27 or 28 March 2026</div>
+        </div>
+        <div class="meta-card">
+          <div class="meta-label">Time</div>
+          <div class="meta-value muted">TBD</div>
+        </div>
+        <div class="meta-card">
+          <div class="meta-label">Venue</div>
+          <div class="meta-value muted">TBD</div>
+        </div>
+        <div class="meta-card" style="border-top: 2px solid var(--amber);">
+          <div class="meta-label">Capacity</div>
+          <div class="meta-value highlight">50 Spots</div>
+        </div>
+        <div class="meta-card" style="border-top: 2px solid var(--amber);">
+          <div class="meta-label">Ticket</div>
+          <div class="meta-value highlight">Free</div>
+        </div>
+        <div class="meta-card" style="border-top: 2px solid var(--amber);">
+          <div class="meta-label">Registration</div>
+          <div class="meta-value highlight">Approval-based</div>
+        </div>
+        <div class="meta-card" style="grid-column: 1 / -1;">
+          <div class="meta-label">Audience</div>
+          <div class="meta-value">AI builders, students, solopreneurs, and practitioners across Singapore</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════ SLIDE 2 ══════════════ -->
+    <div class="slide" id="slide-1">
+      <span class="slide-label">02 / 02 · Partners</span>
+
+      <div class="anim" style="margin-bottom: 20px;">
+        <h2>Our <span class="amber">Partners</span></h2>
+      </div>
+
+      <!-- INSTITUTIONAL -->
+      <div class="anim partner-section">
+        <div class="section-label">Institutional Partner</div>
+        <div class="partner-row">
+          <div class="partner-card" style="max-width: 320px;">
+            <div class="partner-name">SGInnovate</div>
+            <ul class="partner-points">
+              <li>List event on SGInnovate community board — access to 190K+ deep tech community</li>
+              <li>Co-promote to Singapore's student and professional AI network</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- COMMUNITY -->
+      <div class="anim partner-section">
+        <div class="section-label">Community Partners</div>
+        <div class="partner-row">
+          <div class="partner-card">
+            <div class="partner-name">e27</div>
+            <ul class="partner-points">
+              <li>Broadcast event via newsletter to 180K readers across APAC</li>
+              <li>Post-event feature on the best demo builder — turning the night into a media story</li>
+            </ul>
+          </div>
+          <div class="partner-card">
+            <div class="partner-name">First Prompt</div>
+            <ul class="partner-points">
+              <li>Cross-promote to their 500+ active AI builder community in Singapore</li>
+              <li>Shared speaker and attendee pipeline across both communities</li>
+            </ul>
+          </div>
+          <div class="partner-card">
+            <div class="partner-name">Hashmeta</div>
+            <ul class="partner-points">
+              <li>Terence joins as debate practitioner — the AI marketing voice on "what comes after you build"</li>
+              <li>Co-promote to their client and marketing network across Singapore and Malaysia</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- KNOWLEDGE -->
+      <div class="anim partner-section">
+        <div class="section-label">Knowledge Partners</div>
+        <div class="partner-row">
+          <div class="partner-card">
+            <div class="partner-name">NTU</div>
+            <ul class="partner-points">
+              <li>Work with College of Computing & Data Science professors to nominate student demo builders</li>
+              <li>Outreach via NTU tech and entrepreneurship clubs to fill curated student seats</li>
+            </ul>
+          </div>
+          <div class="partner-card">
+            <div class="partner-name">NUS</div>
+            <ul class="partner-points">
+              <li>Engage NUS Computing and MBA faculty to nominate students for demo slots and attendance</li>
+              <li>Outreach via NUS StartIT and Product Club to their active builder community</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- EVENT -->
+      <div class="anim partner-section">
+        <div class="section-label">Event Partner</div>
+        <div class="partner-row">
+          <div class="partner-card" style="max-width: 320px;">
+            <div class="partner-name">AI Apex Asia</div>
+            <ul class="partner-points">
+              <li>Co-promote to their professional, investor, and enterprise AI network across Asia</li>
+              <li>Provide a practitioner voice on the open floor — bridging builders to the investor perspective</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div><!-- /deck -->
+
+  <div class="nav">
+    <button class="nav-btn" id="prev-btn" onclick="navigate(-1)" disabled>&#8592;</button>
+    <div class="dots" id="dots"></div>
+    <button class="nav-btn" id="next-btn" onclick="navigate(1)">&#8594;</button>
+  </div>
+
+  <script>
+    const TOTAL = 2;
+    let current = 0;
+
+    const dotsEl = document.getElementById('dots');
+    for (let i = 0; i < TOTAL; i++) {
+      const d = document.createElement('div');
+      d.className = 'dot' + (i === 0 ? ' active' : '');
+      d.onclick = () => goTo(i);
+      dotsEl.appendChild(d);
+    }
+
+    function goTo(n) {
+      if (n < 0 || n >= TOTAL || n === current) return;
+      const slides = document.querySelectorAll('.slide');
+      slides[current].classList.remove('active');
+      slides[current].classList.add('exit');
+      setTimeout(() => slides[current].classList.remove('exit'), 420);
+      slides[n].style.transform = n > current ? 'translateX(28px)' : 'translateX(-28px)';
+      slides[n].classList.add('active');
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        slides[n].style.transform = '';
+      }));
+      current = n;
+      updateUI();
+    }
+
+    function navigate(dir) { goTo(current + dir); }
+
+    function updateUI() {
+      document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current));
+      document.getElementById('prev-btn').disabled = current === 0;
+      document.getElementById('next-btn').disabled = current === TOTAL - 1;
+      document.getElementById('progress').style.width = ((current + 1) / TOTAL * 100) + '%';
+    }
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); navigate(1); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); navigate(-1); }
+    });
+
+    let tx = 0;
+    document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; });
+    document.addEventListener('touchend', e => {
+      const dx = e.changedTouches[0].clientX - tx;
+      if (Math.abs(dx) > 50) navigate(dx < 0 ? 1 : -1);
+    });
+
+    updateUI();
+  </script>
+</body>
+</html>
