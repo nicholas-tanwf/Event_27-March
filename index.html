@@ -126,25 +126,48 @@
       border: 1px solid rgba(245,158,11,0.25);
     }
 
-    /* SLIDE 1 — META GRID */
+    /* SLIDE 1 — TWO COL */
+    .slide-1-layout {
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      gap: 56px;
+      align-items: center;
+      width: 100%;
+    }
+
+    /* Audience pills */
+    .audience-list {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      margin-top: 12px;
+    }
+    .audience-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 5px 12px; border-radius: 100px;
+      font-size: 12px; font-weight: 600;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+    .audience-pill .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--amber); flex-shrink: 0; }
+
+    /* META GRID */
     .meta-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      margin-top: 32px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
     }
     .meta-card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 16px 20px;
+      padding: 14px 18px;
     }
     .meta-label {
       font-size: 10px; font-weight: 700; letter-spacing: 0.12em;
-      text-transform: uppercase; color: var(--subtle); margin-bottom: 5px;
+      text-transform: uppercase; color: var(--subtle); margin-bottom: 4px;
     }
     .meta-value {
-      font-size: 15px; font-weight: 600; color: var(--text); line-height: 1.35;
+      font-size: 14px; font-weight: 600; color: var(--text); line-height: 1.35;
     }
     .meta-value.highlight { color: var(--amber); }
 
@@ -177,9 +200,10 @@
     }
     .partner-points li::before { content: '→'; color: var(--amber); font-weight: 700; flex-shrink: 0; }
 
-    @media (max-width: 768px) {
-      .slide { padding: 48px 24px 80px; }
+    @media (max-width: 900px) {
+      .slide { padding: 48px 24px 80px; overflow-y: auto; justify-content: flex-start; padding-top: 60px; }
       .slide-label { left: 24px; }
+      .slide-1-layout { grid-template-columns: 1fr; gap: 28px; }
       .meta-grid { grid-template-columns: 1fr 1fr; }
       .partner-row { flex-direction: column; }
     }
@@ -195,50 +219,88 @@
     <div class="slide active" id="slide-0">
       <span class="slide-label">01 / 02 · Event Overview</span>
 
-      <div class="anim" style="margin-bottom: 10px;">
-        <span class="tag">ChronoAI Builder Nights · Edition 1</span>
-      </div>
+      <div class="slide-1-layout">
 
-      <div class="anim" style="margin-bottom: 16px;">
-        <h1>Built.<br/><span class="amber">Now What?</span></h1>
-      </div>
+        <!-- LEFT: Purpose + Audience -->
+        <div>
+          <div class="anim" style="margin-bottom: 12px;">
+            <span class="tag">ChronoAI Builder Nights · Edition 1</span>
+          </div>
 
-      <div class="anim" style="margin-bottom: 28px;">
-        <p style="font-size: clamp(16px, 1.8vw, 20px); color: var(--muted); line-height: 1.6; max-width: 560px;">
-          Anyone can build with AI. But can you launch it?<br/>
-          <span style="color: var(--text); font-weight: 500;">Singapore's most honest conversation about the gap between building and shipping.</span>
-        </p>
-      </div>
+          <div class="anim" style="margin-bottom: 14px;">
+            <h1 style="font-size: clamp(44px, 6vw, 72px);">Built.<br/><span class="amber">Now What?</span></h1>
+          </div>
 
-      <div class="anim meta-grid">
-        <div class="meta-card">
-          <div class="meta-label">Date</div>
-          <div class="meta-value">27 or 28 March 2026</div>
+          <div class="anim" style="margin-bottom: 20px;">
+            <p style="font-size: 15px; color: var(--amber); font-weight: 600; line-height: 1.5; margin-bottom: 6px;">
+              Anyone can build with AI. But can you launch it?
+            </p>
+            <p style="font-size: 14px; color: var(--muted); line-height: 1.7; max-width: 480px;">
+              Singapore's AI builder community is buzzing — but most products never see a real user. Builder Nights is our way of changing that. We're bringing together the people who are building with AI every day for an honest, energetic evening of live demos, real debate, and the conversations that actually help you move from "I built something" to "people are using it."
+            </p>
+          </div>
+
+          <div class="anim" style="margin-bottom: 8px;">
+            <p style="font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--subtle); margin-bottom: 10px;">Why this event exists</p>
+            <p style="font-size: 13px; color: var(--muted); line-height: 1.7; max-width: 480px;">
+              ChronoAI builds with AI every single day — and we know first-hand that the hardest part isn't the build. It's everything after. We created Builder Nights to give Singapore's builders a home: a monthly space to share honestly, learn from each other, and be part of a community that is genuinely excited about what AI makes possible. <span style="color: var(--text); font-weight: 500;">No sponsors pushing agendas. No polished keynotes. Just real people, real products, real conversations.</span>
+            </p>
+          </div>
+
+          <div class="anim">
+            <p style="font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--subtle); margin-bottom: 10px;">Who we're here for</p>
+            <div class="audience-list">
+              <span class="audience-pill"><span class="dot"></span>Vibe coders building their first app</span>
+              <span class="audience-pill"><span class="dot"></span>Builders who finished something and don't know what's next</span>
+              <span class="audience-pill"><span class="dot"></span>Students exploring AI tools for the first time</span>
+              <span class="audience-pill"><span class="dot"></span>Solopreneurs running on AI automation</span>
+              <span class="audience-pill"><span class="dot"></span>Practitioners who want honest peer conversations</span>
+              <span class="audience-pill"><span class="dot"></span>Anyone who believes AI is for builders, not just enterprises</span>
+            </div>
+          </div>
         </div>
-        <div class="meta-card">
-          <div class="meta-label">Time</div>
-          <div class="meta-value muted">TBD</div>
+
+        <!-- RIGHT: Meta details -->
+        <div class="anim">
+          <div style="font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--subtle); margin-bottom: 12px;">Event Details</div>
+          <div class="meta-grid">
+            <div class="meta-card" style="grid-column: 1 / -1;">
+              <div class="meta-label">Date</div>
+              <div class="meta-value">27 or 28 March 2026</div>
+            </div>
+            <div class="meta-card">
+              <div class="meta-label">Time</div>
+              <div class="meta-value muted">TBD</div>
+            </div>
+            <div class="meta-card">
+              <div class="meta-label">Venue</div>
+              <div class="meta-value muted">TBD</div>
+            </div>
+            <div class="meta-card" style="border-top: 2px solid var(--amber);">
+              <div class="meta-label">Capacity</div>
+              <div class="meta-value highlight">50 Spots</div>
+            </div>
+            <div class="meta-card" style="border-top: 2px solid var(--amber);">
+              <div class="meta-label">Ticket</div>
+              <div class="meta-value highlight">Free</div>
+            </div>
+            <div class="meta-card" style="border-top: 2px solid var(--amber); grid-column: 1 / -1;">
+              <div class="meta-label">Registration</div>
+              <div class="meta-value highlight">Approval-based · Curated, not first-come-first-served</div>
+            </div>
+          </div>
+
+          <div style="margin-top: 16px; background: var(--surface); border: 1px solid rgba(245,158,11,0.2); border-radius: 12px; padding: 16px 18px;">
+            <div style="font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--amber); margin-bottom: 8px;">Our commitment</div>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 6px;">
+              <li style="display: flex; gap: 8px; font-size: 12px; color: var(--muted); line-height: 1.5;"><span style="color: var(--amber); font-weight: 700; flex-shrink:0;">→</span>Monthly — a permanent fixture in Singapore's AI calendar</li>
+              <li style="display: flex; gap: 8px; font-size: 12px; color: var(--muted); line-height: 1.5;"><span style="color: var(--amber); font-weight: 700; flex-shrink:0;">→</span>ChronoAI demos our own work every edition — we're not just the host, we're a builder too</li>
+              <li style="display: flex; gap: 8px; font-size: 12px; color: var(--muted); line-height: 1.5;"><span style="color: var(--amber); font-weight: 700; flex-shrink:0;">→</span>Community continues after the event — WhatsApp group, ongoing conversations, real connections</li>
+              <li style="display: flex; gap: 8px; font-size: 12px; color: var(--muted); line-height: 1.5;"><span style="color: var(--amber); font-weight: 700; flex-shrink:0;">→</span>Always free — because great communities shouldn't have a cover charge</li>
+            </ul>
+          </div>
         </div>
-        <div class="meta-card">
-          <div class="meta-label">Venue</div>
-          <div class="meta-value muted">TBD</div>
-        </div>
-        <div class="meta-card" style="border-top: 2px solid var(--amber);">
-          <div class="meta-label">Capacity</div>
-          <div class="meta-value highlight">50 Spots</div>
-        </div>
-        <div class="meta-card" style="border-top: 2px solid var(--amber);">
-          <div class="meta-label">Ticket</div>
-          <div class="meta-value highlight">Free</div>
-        </div>
-        <div class="meta-card" style="border-top: 2px solid var(--amber);">
-          <div class="meta-label">Registration</div>
-          <div class="meta-value highlight">Approval-based</div>
-        </div>
-        <div class="meta-card" style="grid-column: 1 / -1;">
-          <div class="meta-label">Audience</div>
-          <div class="meta-value">AI builders, students, solopreneurs, and practitioners across Singapore</div>
-        </div>
+
       </div>
     </div>
 
