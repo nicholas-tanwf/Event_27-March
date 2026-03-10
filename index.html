@@ -121,6 +121,19 @@ h1 { font-size:clamp(52px,5.8vw,84px); font-weight:900; line-height:.94; letter-
 
 /* ── SLIDE 2 ── */
 .s2 { display:flex; flex-direction:column; gap:18px; width:100%; }
+
+/* ChronoAI contribution strip */
+.contrib-strip { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:4px; }
+.contrib-card {
+  display:flex; flex-direction:column; gap:6px;
+  background:linear-gradient(135deg,rgba(56,189,248,.07) 0%,rgba(56,189,248,.02) 100%);
+  border:1px solid rgba(56,189,248,.22); border-left:3px solid var(--blue);
+  border-radius:11px; padding:13px 15px;
+}
+.contrib-label { font-size:9px; font-weight:700; letter-spacing:.13em; text-transform:uppercase; color:var(--blue); }
+.contrib-val { font-size:12px; font-weight:600; color:#fff; line-height:1.4; }
+.contrib-desc { font-size:11px; color:var(--muted); line-height:1.5; }
+@media(max-width:900px){ .contrib-strip{ grid-template-columns:1fr; } }
 .grp-hd { display:flex; align-items:center; gap:12px; margin-bottom:10px; }
 .grp-hd-txt { font-size:10px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; white-space:nowrap; }
 .grp-hd-line { flex:1; height:1px; background:var(--bd); }
@@ -266,16 +279,50 @@ h1 { font-size:clamp(52px,5.8vw,84px); font-weight:900; line-height:.94; letter-
 
   <!-- ═══════════════════ SLIDE 2 ═══════════════════ -->
   <div class="slide" id="s1">
-    <div class="slide-lbl"><span class="en">02 / 02 · Partners</span><span class="zh">02 / 02 · 合作伙伴</span></div>
+    <div class="slide-lbl"><span class="en">02 / 02 · What We Bring &amp; Who's With Us</span><span class="zh">02 / 02 · 我们的贡献与合作伙伴</span></div>
 
-    <div class="an" style="margin-bottom:22px">
-      <h2 style="font-size:clamp(24px,3vw,38px);font-weight:900;letter-spacing:-.02em">
-        <span class="en">Our <span style="background:linear-gradient(90deg,#F59E0B,#FB923C);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Partners</span></span>
-        <span class="zh">我们的<span style="background:linear-gradient(90deg,#F59E0B,#FB923C);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">合作伙伴</span></span>
+    <div class="an" style="margin-bottom:16px">
+      <h2 style="font-size:clamp(22px,2.8vw,34px);font-weight:900;letter-spacing:-.02em">
+        <span class="en">What <span style="background:linear-gradient(90deg,#38BDF8,#818CF8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">ChronoAI Brings</span></span>
+        <span class="zh"><span style="background:linear-gradient(90deg,#38BDF8,#818CF8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">ChronoAI</span> 的贡献</span>
       </h2>
     </div>
 
+    <div class="an" style="margin-bottom:20px">
+      <div class="contrib-strip">
+        <div class="contrib-card">
+          <div class="contrib-label en">Live Demo</div>
+          <div class="contrib-label zh">现场演示</div>
+          <div class="contrib-val">SoulGarden</div>
+          <div class="contrib-desc en">Our AI-powered wellness app — demoed live, warts and all</div>
+          <div class="contrib-desc zh">我们的 AI 健康应用——现场演示，真实展示</div>
+        </div>
+        <div class="contrib-card">
+          <div class="contrib-label en">Live Demo</div>
+          <div class="contrib-label zh">现场演示</div>
+          <div class="contrib-val">RiteSet</div>
+          <div class="contrib-desc en">Our productivity tool built entirely through vibe coding</div>
+          <div class="contrib-desc zh">完全通过 Vibe Coding 构建的生产力工具</div>
+        </div>
+        <div class="contrib-card">
+          <div class="contrib-label en">Knowledge Share</div>
+          <div class="contrib-label zh">经验分享</div>
+          <div class="contrib-val en">Our Workflow</div>
+          <div class="contrib-val zh">我们的工作流</div>
+          <div class="contrib-desc en">How we actually build, ship, and market with AI every day — honest, no fluff</div>
+          <div class="contrib-desc zh">我们如何真实地每天用 AI 构建、发布和营销——坦诚，不虚夸</div>
+        </div>
+      </div>
+    </div>
+
     <div class="s2">
+
+      <!-- Partners heading -->
+      <div class="an" style="margin-bottom:-4px">
+        <div style="font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--sub)">
+          <span class="en">Our Partners</span><span class="zh">我们的合作伙伴</span>
+        </div>
+      </div>
 
       <!-- GROUP A: Institutional & Media -->
       <div class="an">
