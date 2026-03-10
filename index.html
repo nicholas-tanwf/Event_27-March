@@ -40,10 +40,31 @@
       pointer-events: none; z-index: 0;
     }
 
+    /* ── LANGUAGE ── */
+    body:not(.zh) .zh { display: none !important; }
+    body.zh .en { display: none !important; }
+
+    /* ── LANG TOGGLE ── */
+    .lang-toggle {
+      position: fixed; top: 24px; right: 36px;
+      z-index: 100;
+      display: flex; align-items: center; gap: 3px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 100px; padding: 3px;
+    }
+    .lang-btn {
+      padding: 5px 14px; border-radius: 100px; border: none;
+      cursor: pointer; font-family: 'Inter', sans-serif;
+      font-size: 12px; font-weight: 600;
+      transition: all 0.2s ease;
+      background: transparent; color: var(--muted);
+    }
+    .lang-btn.active { background: var(--amber); color: #000; }
+
     .progress-bar {
       position: fixed; top: 0; left: 0; height: 2px;
-      background: var(--amber);
-      transition: width 0.4s ease; z-index: 200;
+      background: var(--amber); transition: width 0.4s ease; z-index: 200;
     }
 
     .deck { width: 100vw; height: 100vh; position: relative; z-index: 1; }
@@ -65,6 +86,7 @@
     .slide.active .anim:nth-child(3) { animation-delay: 0.20s; }
     .slide.active .anim:nth-child(4) { animation-delay: 0.27s; }
     .slide.active .anim:nth-child(5) { animation-delay: 0.34s; }
+    .slide.active .anim:nth-child(6) { animation-delay: 0.41s; }
 
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(12px); }
@@ -80,14 +102,14 @@
     }
 
     .slide-label {
-      position: absolute; top: 32px; left: 80px;
+      position: absolute; top: 28px; left: 80px;
       font-size: 11px; font-weight: 600; letter-spacing: 0.12em;
       text-transform: uppercase; color: var(--subtle);
     }
 
     /* NAV */
     .nav {
-      position: fixed; bottom: 32px; left: 0; right: 0;
+      position: fixed; bottom: 28px; left: 0; right: 0;
       display: flex; align-items: center; justify-content: center;
       gap: 24px; z-index: 100;
     }
@@ -101,23 +123,17 @@
     .nav-btn:hover { border-color: var(--amber); color: var(--amber); }
     .nav-btn:disabled { opacity: 0.25; cursor: default; }
     .dots { display: flex; gap: 6px; align-items: center; }
-    .dot {
-      width: 5px; height: 5px; border-radius: 50%;
-      background: var(--subtle); transition: all 0.25s ease; cursor: pointer;
-    }
+    .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--subtle); transition: all 0.25s ease; cursor: pointer; }
     .dot.active { width: 20px; border-radius: 3px; background: var(--amber); }
 
     /* TYPE */
-    .eyebrow {
-      font-size: 11px; font-weight: 700; letter-spacing: 0.14em;
-      text-transform: uppercase; color: var(--amber); margin-bottom: 12px;
-    }
-    h1 { font-size: clamp(52px, 7vw, 84px); font-weight: 900; line-height: 1.0; letter-spacing: -0.03em; }
+    .eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--amber); margin-bottom: 12px; }
+    h1 { font-size: clamp(44px, 5.5vw, 72px); font-weight: 900; line-height: 1.0; letter-spacing: -0.03em; }
     h2 { font-size: clamp(22px, 3vw, 34px); font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; }
     .amber { color: var(--amber); }
     .muted { color: var(--muted); }
 
-    /* COMPONENTS */
+    /* TAG */
     .tag {
       display: inline-flex; align-items: center;
       padding: 3px 11px; border-radius: 100px;
@@ -126,86 +142,66 @@
       border: 1px solid rgba(245,158,11,0.25);
     }
 
-    /* SLIDE 1 — TWO COL */
+    /* SLIDE 1 */
     .slide-1-layout {
-      display: grid;
-      grid-template-columns: 1.15fr 1fr;
-      gap: 56px;
-      align-items: center;
-      width: 100%;
+      display: grid; grid-template-columns: 1.15fr 1fr;
+      gap: 52px; align-items: center; width: 100%;
     }
-
-    /* Audience pills */
-    .audience-list {
-      display: flex; flex-wrap: wrap; gap: 8px;
-      margin-top: 12px;
+    .section-hd {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--subtle); margin-bottom: 10px;
     }
+    .audience-list { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 10px; }
     .audience-pill {
       display: inline-flex; align-items: center; gap: 6px;
       padding: 5px 12px; border-radius: 100px;
-      font-size: 12px; font-weight: 600;
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      color: var(--muted);
+      font-size: 11px; font-weight: 600;
+      background: var(--surface2); border: 1px solid var(--border); color: var(--muted);
     }
-    .audience-pill .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--amber); flex-shrink: 0; }
+    .audience-pill .d { width: 5px; height: 5px; border-radius: 50%; background: var(--amber); flex-shrink: 0; }
 
     /* META GRID */
-    .meta-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-    }
-    .meta-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 14px 18px;
-    }
-    .meta-label {
-      font-size: 10px; font-weight: 700; letter-spacing: 0.12em;
-      text-transform: uppercase; color: var(--subtle); margin-bottom: 4px;
-    }
-    .meta-value {
-      font-size: 14px; font-weight: 600; color: var(--text); line-height: 1.35;
-    }
-    .meta-value.highlight { color: var(--amber); }
+    .meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+    .meta-card { background: var(--surface); border: 1px solid var(--border); border-radius: 11px; padding: 13px 16px; }
+    .meta-label { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--subtle); margin-bottom: 4px; }
+    .meta-value { font-size: 13px; font-weight: 600; color: var(--text); line-height: 1.35; }
+    .meta-value.hl { color: var(--amber); }
 
-    /* SLIDE 2 — PARTNER GRID */
-    .partner-section { margin-bottom: 16px; }
-    .section-label {
-      font-size: 10px; font-weight: 700; letter-spacing: 0.12em;
-      text-transform: uppercase; color: var(--subtle);
-      margin-bottom: 8px; padding-left: 2px;
+    /* COMMITMENT CARD */
+    .commit-card {
+      margin-top: 14px;
+      background: var(--surface); border: 1px solid rgba(245,158,11,0.2);
+      border-radius: 11px; padding: 14px 16px;
     }
-    .partner-row { display: flex; gap: 10px; flex-wrap: wrap; }
+    .commit-hd { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--amber); margin-bottom: 8px; }
+    .commit-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+    .commit-list li { display: flex; gap: 8px; font-size: 11px; color: var(--muted); line-height: 1.55; }
+    .commit-list li .arr { color: var(--amber); font-weight: 700; flex-shrink: 0; }
+
+    /* SLIDE 2 */
+    .partner-section { margin-bottom: 14px; }
+    .partner-section-label { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--subtle); margin-bottom: 8px; padding-left: 2px; }
+    .partner-row { display: flex; gap: 9px; flex-wrap: wrap; }
     .partner-card {
-      flex: 1; min-width: 160px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 14px 18px;
+      flex: 1; min-width: 150px;
+      background: var(--surface); border: 1px solid var(--border);
       border-top: 2px solid var(--border);
-      transition: border-color 0.2s ease;
+      border-radius: 11px; padding: 13px 16px;
+      transition: border-top-color 0.2s ease;
     }
     .partner-card:hover { border-top-color: var(--amber); }
-    .partner-name {
-      font-size: 13px; font-weight: 700; color: var(--text);
-      margin-bottom: 8px;
-    }
-    .partner-points { list-style: none; display: flex; flex-direction: column; gap: 5px; }
-    .partner-points li {
-      display: flex; align-items: flex-start; gap: 7px;
-      font-size: 11px; color: var(--muted); line-height: 1.5;
-    }
-    .partner-points li::before { content: '→'; color: var(--amber); font-weight: 700; flex-shrink: 0; }
+    .partner-name { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 7px; }
+    .partner-pts { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+    .partner-pts li { display: flex; align-items: flex-start; gap: 7px; font-size: 11px; color: var(--muted); line-height: 1.5; }
+    .partner-pts li::before { content: '→'; color: var(--amber); font-weight: 700; flex-shrink: 0; }
 
     @media (max-width: 900px) {
-      .slide { padding: 48px 24px 80px; overflow-y: auto; justify-content: flex-start; padding-top: 60px; }
+      .slide { padding: 60px 24px 80px; overflow-y: auto; justify-content: flex-start; }
       .slide-label { left: 24px; }
-      .slide-1-layout { grid-template-columns: 1fr; gap: 28px; }
+      .slide-1-layout { grid-template-columns: 1fr; gap: 24px; }
       .meta-grid { grid-template-columns: 1fr 1fr; }
       .partner-row { flex-direction: column; }
+      .lang-toggle { top: 14px; right: 16px; }
     }
   </style>
 </head>
@@ -213,90 +209,117 @@
 
   <div class="progress-bar" id="progress"></div>
 
+  <!-- Language toggle -->
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="btn-zh" onclick="setLang('zh')">中文</button>
+  </div>
+
   <div class="deck">
 
-    <!-- ══════════════ SLIDE 1 ══════════════ -->
+    <!-- ══════════════════════════════
+         SLIDE 1 · EVENT OVERVIEW
+    ══════════════════════════════ -->
     <div class="slide active" id="slide-0">
-      <span class="slide-label">01 / 02 · Event Overview</span>
+      <div class="slide-label en">01 / 02 · Event Overview</div>
+      <div class="slide-label zh">01 / 02 · 活动概览</div>
 
       <div class="slide-1-layout">
 
-        <!-- LEFT: Purpose + Audience -->
+        <!-- LEFT -->
         <div>
-          <div class="anim" style="margin-bottom: 12px;">
-            <span class="tag">ChronoAI Builder Nights · Edition 1</span>
+          <div class="anim" style="margin-bottom: 11px;">
+            <span class="tag en">ChronoAI Builder Nights · Edition 1</span>
+            <span class="tag zh">ChronoAI Builder Nights · 第一期</span>
           </div>
 
-          <div class="anim" style="margin-bottom: 14px;">
-            <h1 style="font-size: clamp(44px, 6vw, 72px);">Built.<br/><span class="amber">Now What?</span></h1>
+          <div class="anim" style="margin-bottom: 13px;">
+            <h1>Built.<br/><span class="amber">Now What?</span></h1>
           </div>
 
-          <div class="anim" style="margin-bottom: 20px;">
-            <p style="font-size: 15px; color: var(--amber); font-weight: 600; line-height: 1.5; margin-bottom: 6px;">
-              Anyone can build with AI. But can you launch it?
+          <div class="anim" style="margin-bottom: 18px;">
+            <p style="font-size: 14px; color: var(--amber); font-weight: 600; line-height: 1.5; margin-bottom: 6px;">
+              <span class="en">Anyone can build with AI. But can you launch it?</span>
+              <span class="zh">任何人都能用 AI 做出产品。但你能把它发布出去吗？</span>
             </p>
-            <p style="font-size: 14px; color: var(--muted); line-height: 1.7; max-width: 480px;">
-              Singapore's AI builder community is buzzing — but most products never see a real user. Builder Nights is our way of changing that. We're bringing together the people who are building with AI every day for an honest, energetic evening of live demos, real debate, and the conversations that actually help you move from "I built something" to "people are using it."
-            </p>
-          </div>
-
-          <div class="anim" style="margin-bottom: 8px;">
-            <p style="font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--subtle); margin-bottom: 10px;">Why this event exists</p>
             <p style="font-size: 13px; color: var(--muted); line-height: 1.7; max-width: 480px;">
-              ChronoAI builds with AI every single day — and we know first-hand that the hardest part isn't the build. It's everything after. We created Builder Nights to give Singapore's builders a home: a monthly space to share honestly, learn from each other, and be part of a community that is genuinely excited about what AI makes possible. <span style="color: var(--text); font-weight: 500;">No sponsors pushing agendas. No polished keynotes. Just real people, real products, real conversations.</span>
+              <span class="en">Singapore's AI builder community is buzzing — but most products never see a real user. Builder Nights is our way of changing that. We're bringing together people who are building with AI every day for an honest, energetic evening of live demos, real debate, and the conversations that actually help you move from "I built something" to "people are using it."</span>
+              <span class="zh">新加坡的 AI 创造者社区正在蓬勃发展——但大多数产品从未见过真实的用户。Builder Nights 就是我们改变这一现状的方式。我们将每天都在用 AI 构建产品的人聚集在一起，举办充满活力、坦诚真实的夜晚——现场演示、真实辩论，以及那些真正帮你从"我做了个东西"走到"有人在使用它"的对话。</span>
+            </p>
+          </div>
+
+          <div class="anim" style="margin-bottom: 16px;">
+            <div class="section-hd en">Why this event exists</div>
+            <div class="section-hd zh">为什么举办这个活动</div>
+            <p style="font-size: 13px; color: var(--muted); line-height: 1.7; max-width: 480px;">
+              <span class="en">ChronoAI builds with AI every single day — and we know first-hand that the hardest part isn't the build. It's everything after. We created Builder Nights to give Singapore's builders a home: a monthly space to share honestly, learn from each other, and be part of a community that is genuinely excited about what AI makes possible. <strong style="color:var(--text);">No sponsor agendas. No polished keynotes. Just real people, real products, real conversations.</strong></span>
+              <span class="zh">ChronoAI 每天都在用 AI 构建产品——我们深知最难的部分不是构建本身，而是之后的一切。我们创办 Builder Nights，是为了给新加坡的创造者们一个家：一个每月举办的空间，让大家可以坦诚地分享、相互学习，成为一个真正对 AI 可能性感到兴奋的社区的一部分。<strong style="color:var(--text);">没有赞助商议程。没有精心打磨的主题演讲。只有真实的人、真实的产品、真实的对话。</strong></span>
             </p>
           </div>
 
           <div class="anim">
-            <p style="font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--subtle); margin-bottom: 10px;">Who we're here for</p>
+            <div class="section-hd en">Who we're here for</div>
+            <div class="section-hd zh">我们服务的对象</div>
             <div class="audience-list">
-              <span class="audience-pill"><span class="dot"></span>Vibe coders building their first app</span>
-              <span class="audience-pill"><span class="dot"></span>Builders who finished something and don't know what's next</span>
-              <span class="audience-pill"><span class="dot"></span>Students exploring AI tools for the first time</span>
-              <span class="audience-pill"><span class="dot"></span>Solopreneurs running on AI automation</span>
-              <span class="audience-pill"><span class="dot"></span>Practitioners who want honest peer conversations</span>
-              <span class="audience-pill"><span class="dot"></span>Anyone who believes AI is for builders, not just enterprises</span>
+              <span class="audience-pill"><span class="d"></span><span class="en">Vibe coders building their first app</span><span class="zh">正在做第一款应用的 Vibe Coder</span></span>
+              <span class="audience-pill"><span class="d"></span><span class="en">Builders who finished something and don't know what's next</span><span class="zh">做完了产品却不知道下一步的创造者</span></span>
+              <span class="audience-pill"><span class="d"></span><span class="en">Students exploring AI tools for the first time</span><span class="zh">第一次探索 AI 工具的学生</span></span>
+              <span class="audience-pill"><span class="d"></span><span class="en">Solopreneurs running on AI automation</span><span class="zh">依靠 AI 自动化运营的独立创业者</span></span>
+              <span class="audience-pill"><span class="d"></span><span class="en">Practitioners who want honest peer conversations</span><span class="zh">渴望真诚同伴交流的从业者</span></span>
+              <span class="audience-pill"><span class="d"></span><span class="en">Anyone who believes AI is for builders, not just enterprises</span><span class="zh">相信 AI 属于创造者而非企业的人</span></span>
             </div>
           </div>
         </div>
 
-        <!-- RIGHT: Meta details -->
+        <!-- RIGHT -->
         <div class="anim">
-          <div style="font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--subtle); margin-bottom: 12px;">Event Details</div>
+          <div class="section-hd en">Event Details</div>
+          <div class="section-hd zh">活动详情</div>
           <div class="meta-grid">
             <div class="meta-card" style="grid-column: 1 / -1;">
-              <div class="meta-label">Date</div>
-              <div class="meta-value">27 or 28 March 2026</div>
+              <div class="meta-label en">Date</div>
+              <div class="meta-label zh">日期</div>
+              <div class="meta-value en">27 or 28 March 2026</div>
+              <div class="meta-value zh">2026年3月27或28日</div>
             </div>
             <div class="meta-card">
-              <div class="meta-label">Time</div>
+              <div class="meta-label en">Time</div>
+              <div class="meta-label zh">时间</div>
               <div class="meta-value muted">TBD</div>
             </div>
             <div class="meta-card">
-              <div class="meta-label">Venue</div>
+              <div class="meta-label en">Venue</div>
+              <div class="meta-label zh">地点</div>
               <div class="meta-value muted">TBD</div>
             </div>
             <div class="meta-card" style="border-top: 2px solid var(--amber);">
-              <div class="meta-label">Capacity</div>
-              <div class="meta-value highlight">50 Spots</div>
+              <div class="meta-label en">Capacity</div>
+              <div class="meta-label zh">容量</div>
+              <div class="meta-value hl en">50 Spots</div>
+              <div class="meta-value hl zh">50 个名额</div>
             </div>
             <div class="meta-card" style="border-top: 2px solid var(--amber);">
-              <div class="meta-label">Ticket</div>
-              <div class="meta-value highlight">Free</div>
+              <div class="meta-label en">Ticket</div>
+              <div class="meta-label zh">票价</div>
+              <div class="meta-value hl en">Free</div>
+              <div class="meta-value hl zh">免费</div>
             </div>
             <div class="meta-card" style="border-top: 2px solid var(--amber); grid-column: 1 / -1;">
-              <div class="meta-label">Registration</div>
-              <div class="meta-value highlight">Approval-based · Curated, not first-come-first-served</div>
+              <div class="meta-label en">Registration</div>
+              <div class="meta-label zh">报名方式</div>
+              <div class="meta-value hl en">Approval-based · Curated, not first-come-first-served</div>
+              <div class="meta-value hl zh">审核制 · 精心筛选，非先到先得</div>
             </div>
           </div>
 
-          <div style="margin-top: 16px; background: var(--surface); border: 1px solid rgba(245,158,11,0.2); border-radius: 12px; padding: 16px 18px;">
-            <div style="font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--amber); margin-bottom: 8px;">Our commitment</div>
-            <ul style="list-style: none; display: flex; flex-direction: column; gap: 6px;">
-              <li style="display: flex; gap: 8px; font-size: 12px; color: var(--muted); line-height: 1.5;"><span style="color: var(--amber); font-weight: 700; flex-shrink:0;">→</span>Monthly — a permanent fixture in Singapore's AI calendar</li>
-              <li style="display: flex; gap: 8px; font-size: 12px; color: var(--muted); line-height: 1.5;"><span style="color: var(--amber); font-weight: 700; flex-shrink:0;">→</span>ChronoAI demos our own work every edition — we're not just the host, we're a builder too</li>
-              <li style="display: flex; gap: 8px; font-size: 12px; color: var(--muted); line-height: 1.5;"><span style="color: var(--amber); font-weight: 700; flex-shrink:0;">→</span>Community continues after the event — WhatsApp group, ongoing conversations, real connections</li>
-              <li style="display: flex; gap: 8px; font-size: 12px; color: var(--muted); line-height: 1.5;"><span style="color: var(--amber); font-weight: 700; flex-shrink:0;">→</span>Always free — because great communities shouldn't have a cover charge</li>
+          <div class="commit-card">
+            <div class="commit-hd en">Our Commitment</div>
+            <div class="commit-hd zh">我们的承诺</div>
+            <ul class="commit-list">
+              <li><span class="arr">→</span><span class="en">Monthly — a permanent fixture in Singapore's AI calendar</span><span class="zh">每月举办——成为新加坡 AI 日历上的固定节点</span></li>
+              <li><span class="arr">→</span><span class="en">ChronoAI demos our own work every edition — we're not just the host, we're a builder too</span><span class="zh">ChronoAI 每期都演示自己的作品——我们不只是主办方，也是创造者</span></li>
+              <li><span class="arr">→</span><span class="en">Community continues after the event — WhatsApp group, ongoing conversations, real connections</span><span class="zh">活动结束后社区继续运转——WhatsApp 群组、持续对话、真实连结</span></li>
+              <li><span class="arr">→</span><span class="en">Always free — because great communities shouldn't have a cover charge</span><span class="zh">永久免费——因为优质社区不应该设门槛</span></li>
             </ul>
           </div>
         </div>
@@ -304,23 +327,27 @@
       </div>
     </div>
 
-    <!-- ══════════════ SLIDE 2 ══════════════ -->
+    <!-- ══════════════════════════════
+         SLIDE 2 · PARTNERS
+    ══════════════════════════════ -->
     <div class="slide" id="slide-1">
-      <span class="slide-label">02 / 02 · Partners</span>
+      <div class="slide-label en">02 / 02 · Partners</div>
+      <div class="slide-label zh">02 / 02 · 合作伙伴</div>
 
-      <div class="anim" style="margin-bottom: 20px;">
-        <h2>Our <span class="amber">Partners</span></h2>
+      <div class="anim" style="margin-bottom: 18px;">
+        <h2><span class="en">Our <span class="amber">Partners</span></span><span class="zh">我们的<span class="amber">合作伙伴</span></span></h2>
       </div>
 
       <!-- INSTITUTIONAL -->
       <div class="anim partner-section">
-        <div class="section-label">Institutional Partner</div>
+        <div class="partner-section-label en">Institutional Partner</div>
+        <div class="partner-section-label zh">机构合作伙伴</div>
         <div class="partner-row">
-          <div class="partner-card" style="max-width: 320px;">
+          <div class="partner-card" style="max-width: 300px;">
             <div class="partner-name">SGInnovate</div>
-            <ul class="partner-points">
-              <li>List event on SGInnovate community board — access to 190K+ deep tech community</li>
-              <li>Co-promote to Singapore's student and professional AI network</li>
+            <ul class="partner-pts">
+              <li><span class="en">List event on SGInnovate community board — access to 190K+ deep tech community</span><span class="zh">在 SGInnovate 社区平台发布活动——触达 19 万+ 深科技社区成员</span></li>
+              <li><span class="en">Co-promote to Singapore's student and professional AI network</span><span class="zh">向新加坡学生和专业 AI 网络进行联合推广</span></li>
             </ul>
           </div>
         </div>
@@ -328,27 +355,28 @@
 
       <!-- COMMUNITY -->
       <div class="anim partner-section">
-        <div class="section-label">Community Partners</div>
+        <div class="partner-section-label en">Community Partners</div>
+        <div class="partner-section-label zh">社区合作伙伴</div>
         <div class="partner-row">
           <div class="partner-card">
             <div class="partner-name">e27</div>
-            <ul class="partner-points">
-              <li>Broadcast event via newsletter to 180K readers across APAC</li>
-              <li>Post-event feature on the best demo builder — turning the night into a media story</li>
+            <ul class="partner-pts">
+              <li><span class="en">Broadcast event via newsletter to 180K readers across APAC</span><span class="zh">通过电子报向全亚太 18 万读者广播活动信息</span></li>
+              <li><span class="en">Post-event feature on the best demo builder — turning the night into a media story</span><span class="zh">活动后对最佳演示者进行专题报道——将这个夜晚转化为媒体故事</span></li>
             </ul>
           </div>
           <div class="partner-card">
             <div class="partner-name">First Prompt</div>
-            <ul class="partner-points">
-              <li>Cross-promote to their 500+ active AI builder community in Singapore</li>
-              <li>Shared speaker and attendee pipeline across both communities</li>
+            <ul class="partner-pts">
+              <li><span class="en">Cross-promote to their 500+ active AI builder community in Singapore</span><span class="zh">向其 500+ 活跃 AI 创造者社区进行交叉推广</span></li>
+              <li><span class="en">Shared speaker and attendee pipeline across both communities</span><span class="zh">在两个社区之间共享演讲嘉宾和参与者资源</span></li>
             </ul>
           </div>
           <div class="partner-card">
             <div class="partner-name">Hashmeta</div>
-            <ul class="partner-points">
-              <li>Terence joins as debate practitioner — the AI marketing voice on "what comes after you build"</li>
-              <li>Co-promote to their client and marketing network across Singapore and Malaysia</li>
+            <ul class="partner-pts">
+              <li><span class="en">Terence joins as debate practitioner — the AI marketing voice on "what comes after you build"</span><span class="zh">Terence 以辩论实践者身份参与——代表"构建之后该怎么做"的 AI 营销视角</span></li>
+              <li><span class="en">Co-promote to their client and marketing network across Singapore and Malaysia</span><span class="zh">向其覆盖新加坡和马来西亚的客户及营销网络进行联合推广</span></li>
             </ul>
           </div>
         </div>
@@ -356,20 +384,21 @@
 
       <!-- KNOWLEDGE -->
       <div class="anim partner-section">
-        <div class="section-label">Knowledge Partners</div>
+        <div class="partner-section-label en">Knowledge Partners</div>
+        <div class="partner-section-label zh">知识合作伙伴</div>
         <div class="partner-row">
           <div class="partner-card">
             <div class="partner-name">NTU</div>
-            <ul class="partner-points">
-              <li>Work with College of Computing & Data Science professors to nominate student demo builders</li>
-              <li>Outreach via NTU tech and entrepreneurship clubs to fill curated student seats</li>
+            <ul class="partner-pts">
+              <li><span class="en">Work with College of Computing & Data Science professors to nominate student demo builders</span><span class="zh">与计算机与数据科学学院教授合作，提名学生演示者</span></li>
+              <li><span class="en">Outreach via NTU tech and entrepreneurship clubs to fill curated student seats</span><span class="zh">通过 NTU 科技与创业社团向学生群体推广，填补精选名额</span></li>
             </ul>
           </div>
           <div class="partner-card">
             <div class="partner-name">NUS</div>
-            <ul class="partner-points">
-              <li>Engage NUS Computing and MBA faculty to nominate students for demo slots and attendance</li>
-              <li>Outreach via NUS StartIT and Product Club to their active builder community</li>
+            <ul class="partner-pts">
+              <li><span class="en">Engage NUS Computing and MBA faculty to nominate students for demo slots and attendance</span><span class="zh">与 NUS 计算机学院和 MBA 学院教师合作，提名演示者和参与者</span></li>
+              <li><span class="en">Outreach via NUS StartIT and Product Club to their active builder community</span><span class="zh">通过 NUS StartIT 和产品俱乐部向其活跃创造者社区推广</span></li>
             </ul>
           </div>
         </div>
@@ -377,13 +406,14 @@
 
       <!-- EVENT -->
       <div class="anim partner-section">
-        <div class="section-label">Event Partner</div>
+        <div class="partner-section-label en">Event Partner</div>
+        <div class="partner-section-label zh">活动合作伙伴</div>
         <div class="partner-row">
-          <div class="partner-card" style="max-width: 320px;">
+          <div class="partner-card" style="max-width: 300px;">
             <div class="partner-name">AI Apex Asia</div>
-            <ul class="partner-points">
-              <li>Co-promote to their professional, investor, and enterprise AI network across Asia</li>
-              <li>Provide a practitioner voice on the open floor — bridging builders to the investor perspective</li>
+            <ul class="partner-pts">
+              <li><span class="en">Co-promote to their professional, investor, and enterprise AI network across Asia</span><span class="zh">向其覆盖亚洲的专业人士、投资者和企业 AI 网络进行联合推广</span></li>
+              <li><span class="en">Provide a practitioner voice on the open floor — bridging builders to the investor perspective</span><span class="zh">在开放讨论环节提供实践者视角——连接创造者与投资者的观点</span></li>
             </ul>
           </div>
         </div>
@@ -419,9 +449,7 @@
       setTimeout(() => slides[current].classList.remove('exit'), 420);
       slides[n].style.transform = n > current ? 'translateX(28px)' : 'translateX(-28px)';
       slides[n].classList.add('active');
-      requestAnimationFrame(() => requestAnimationFrame(() => {
-        slides[n].style.transform = '';
-      }));
+      requestAnimationFrame(() => requestAnimationFrame(() => { slides[n].style.transform = ''; }));
       current = n;
       updateUI();
     }
@@ -433,6 +461,12 @@
       document.getElementById('prev-btn').disabled = current === 0;
       document.getElementById('next-btn').disabled = current === TOTAL - 1;
       document.getElementById('progress').style.width = ((current + 1) / TOTAL * 100) + '%';
+    }
+
+    function setLang(lang) {
+      document.body.classList.toggle('zh', lang === 'zh');
+      document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+      document.getElementById('btn-zh').classList.toggle('active', lang === 'zh');
     }
 
     document.addEventListener('keydown', e => {
